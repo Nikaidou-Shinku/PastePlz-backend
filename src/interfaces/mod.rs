@@ -1,7 +1,6 @@
 use serde::Serialize;
 
 pub mod config;
-// pub mod paste;
 
 #[derive(Serialize)]
 pub struct ErrResp<T> {

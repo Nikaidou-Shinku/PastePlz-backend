@@ -10,7 +10,7 @@ chrono = { version = "0.4", features = ["serde"] }
 
 rand = "0.8.5"
 
-tokio-postgres = "0.7.6"
+tokio-postgres = { version = "0.7.6", features = ["with-chrono-0_4"] }
 deadpool-postgres = "0.10.2"
 
 actix-web = "4"
