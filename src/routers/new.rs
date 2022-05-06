@@ -1,9 +1,9 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use rand::Rng;
 use deadpool_postgres::Pool;
 use actix_web::{HttpResponse, Responder, web};
 
-use crate::interfaces::Resp;
+use crate::interfaces::ErrResp;
 
 fn get_token() -> String {
   const CHARSET: &[u8; 58] = b"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
@@ -20,17 +20,22 @@ struct PasteForm {
   content: String
 }
 
-#[actix_web::post("/new")]
+#[derive(Serialize)]
+struct Res {
+  token: String
+}
+
+#[actix_web::post("/paste")]
 async fn new_paste((form, data): (
   web::Form<PasteForm>,
   web::Data<Pool>
 )) -> impl Responder {
   if form.content.len() > 102400 { // TODO: convert config to maxlength
     return HttpResponse::BadRequest()
-      .json(Resp::<&str>::err(
-        400,
-        String::from("Content exceeds maximum length!")
-      ));
+      .json(ErrResp::<Res> {
+        error: String::from("Content exceeds maximum length!"),
+        detail: None
+      });
   }
 
   let token = get_token();
@@ -39,5 +44,5 @@ async fn new_paste((form, data): (
   let stmt = client.prepare_cached("INSERT INTO paste (token, lang, content, tm) VALUES ($1, $2, $3, now());").await.unwrap();
   client.query(&stmt, &[&token, &form.lang, &form.content]).await.unwrap();
 
-  HttpResponse::Ok().json(Resp::ok(&token))
+  HttpResponse::Created().json(Res { token })
 }

@@ -1,17 +1,17 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Local};
+// use serde::{Deserialize, Serialize};
+// use chrono::{DateTime, Local};
 
-#[derive(Deserialize, Serialize)]
-pub enum Language { // TODO: convert config to enum by using macro
-  Markdown,
-  Cpp,
-  Python,
-  Java,
-  JavaScript,
-  TypeScript,
-  HTML,
-  CSS
-}
+// #[derive(Deserialize, Serialize)]
+// pub enum Language { // TODO: convert config to enum by using macro
+//   Markdown,
+//   Cpp,
+//   Python,
+//   Java,
+//   JavaScript,
+//   TypeScript,
+//   HTML,
+//   CSS
+// }
 
 // impl Language {
 //   pub fn from_str(qwq: &str) -> Language {
@@ -41,9 +41,9 @@ pub enum Language { // TODO: convert config to enum by using macro
 //   }
 // }
 
-#[derive(Serialize)]
-pub struct Paste {
-  pub lang: Language,
-  pub content: String,
-  pub time: DateTime<Local>
-}
+// #[derive(Serialize)]
+// pub struct Paste {
+//   pub lang: Language,
+//   pub content: String,
+//   pub time: DateTime<Local>
+// }
