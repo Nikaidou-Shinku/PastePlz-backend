@@ -898,6 +898,7 @@ dependencies = [
  "actix-web",
  "chrono",
  "deadpool-postgres",
+ "rand",
  "serde",
  "tokio-postgres",
  "toml",
