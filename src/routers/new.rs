@@ -27,7 +27,7 @@ struct Res {
 
 #[actix_web::post("/paste")]
 async fn new_paste((form, data): (
-  web::Form<PasteForm>,
+  web::Json<PasteForm>,
   web::Data<Pool>
 )) -> impl Responder {
   if form.content.len() > 102400 { // TODO: convert config to maxlength
