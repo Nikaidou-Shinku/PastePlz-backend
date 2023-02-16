@@ -7,6 +7,12 @@ edition = "2021"
 [workspace]
 members = [".", "migration"]
 
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+
 [dependencies]
 serde = { version = "1.0.152", features = ["derive"] }
 rand = "0.8.5"
