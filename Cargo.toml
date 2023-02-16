@@ -8,3 +8,21 @@ edition = "2021"
 members = [".", "migration"]
 
 [dependencies]
+serde = { version = "1.0.152", features = ["derive"] }
+rand = "0.8.5"
+time = { version = "0.3.18", features = ["local-offset", "serde"] }
+tokio = { version = "1.25.0", features = [
+  "rt-multi-thread",
+  "macros",
+  "parking_lot",
+] }
+
+[dependencies.sea-orm]
+version = "0.11.0"
+default-features = false
+features = ["macros", "with-time", "sqlx-sqlite", "runtime-tokio-rustls"]
+
+[dependencies.axum]
+version = "0.6.6"
+default-features = false
+features = ["http1", "json", "tokio"]

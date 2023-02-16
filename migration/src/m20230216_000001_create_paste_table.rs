@@ -13,13 +13,17 @@ impl MigrationTrait for Migration {
           .if_not_exists()
           .col(
             ColumnDef::new(Paste::Token)
-              .string_len(10)
+              .string_len(8)
               .not_null()
               .primary_key(),
           )
           .col(ColumnDef::new(Paste::Lang).string_len(8).not_null())
           .col(ColumnDef::new(Paste::Content).string_len(102400).not_null())
-          .col(ColumnDef::new(Paste::Time).date_time().not_null())
+          .col(
+            ColumnDef::new(Paste::Time)
+              .timestamp_with_time_zone()
+              .not_null(),
+          )
           .to_owned(),
       )
       .await
