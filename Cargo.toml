@@ -23,6 +23,9 @@ tokio = { version = "1.25.0", features = [
   "parking_lot",
 ] }
 
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.16", features = ["parking_lot"] }
+
 [dependencies.sea-orm]
 version = "0.11.0"
 default-features = false

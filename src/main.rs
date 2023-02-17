@@ -9,12 +9,21 @@ use axum::{
 };
 use sea_orm::{Database, DatabaseConnection};
 
+use tracing::Level;
+use tracing_subscriber::FmtSubscriber;
+
 pub struct AppState {
   db: DatabaseConnection,
 }
 
 #[tokio::main]
 async fn main() {
+  let subscriber = FmtSubscriber::builder()
+    .with_max_level(Level::INFO)
+    .finish();
+
+  tracing::subscriber::set_global_default(subscriber).expect("Setting default subscriber failed!");
+
   let db = Database::connect("sqlite:./data.db?mode=rwc")
     .await
     .expect("Error opening database!");
@@ -26,6 +35,8 @@ async fn main() {
     .with_state(Arc::new(AppState { db }));
 
   let addr = SocketAddr::from(([127, 0, 0, 1], 8521));
+
+  tracing::info!("Listening on {addr}");
 
   axum::Server::bind(&addr)
     .serve(app.into_make_service())
