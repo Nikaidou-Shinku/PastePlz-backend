@@ -4,7 +4,7 @@ use axum::{extract::State, http::StatusCode, Json};
 use rand::{seq::SliceRandom, thread_rng};
 use sea_orm::{ActiveModelTrait, ActiveValue};
 use serde::{Deserialize, Serialize};
-use time::OffsetDateTime;
+use time::{macros::offset, OffsetDateTime};
 
 use crate::{entities::paste, AppState};
 
@@ -47,10 +47,8 @@ pub async fn new_paste(
   }
 
   let token = gen_token();
-  let now = OffsetDateTime::now_local().map_err(|err| {
-    tracing::error!(err = err.to_string(), "Error while getting current time");
-    StatusCode::INTERNAL_SERVER_ERROR
-  })?;
+  // https://github.com/time-rs/time/issues/293
+  let now = OffsetDateTime::now_utc().to_offset(offset!(+8));
 
   let new_paste = paste::ActiveModel {
     token: ActiveValue::set(token.clone()),
