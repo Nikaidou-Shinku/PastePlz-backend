@@ -36,6 +36,11 @@ pub async fn new_paste(
   State(state): State<Arc<AppState>>,
   Json(payload): Json<PastePayload>,
 ) -> Result<Json<PasteResponse>, StatusCode> {
+  if payload.content.is_empty() {
+    tracing::warn!("Content is empty");
+    return Err(StatusCode::BAD_REQUEST);
+  }
+
   if payload.content.len() > 102400 {
     tracing::warn!(len = payload.content.len(), "Content too long");
     return Err(StatusCode::BAD_REQUEST);
