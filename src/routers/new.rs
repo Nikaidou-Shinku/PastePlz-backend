@@ -25,8 +25,7 @@ fn gen_token() -> String {
   let mut rng = thread_rng();
 
   (0..8)
-    .map(|_| CHARSET.choose(&mut rng))
-    .flatten()
+    .filter_map(|_| CHARSET.choose(&mut rng))
     .map(|&c| c as char)
     .collect()
 }
