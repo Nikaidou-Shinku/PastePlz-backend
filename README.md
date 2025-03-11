@@ -1,3 +1,7 @@
+# Archived because PastePlz is now SSR.
+
+---
+
 ## PastePlz-backend
 
 The backend of [PastePlz](https://github.com/Nikaidou-Shinku/PastePlz).
